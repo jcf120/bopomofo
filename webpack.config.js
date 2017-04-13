@@ -24,7 +24,10 @@ var plugins = [
       }
     }
   }),
-  new ExtractTextPlugin('style.css', { allChunks: true }),
+  new ExtractTextPlugin({
+    filename: 'style.css',
+    allChunks: true,
+  }),
 ];
 
 
@@ -42,15 +45,14 @@ if (isProduction) {
 module.exports = {
   devtool: isProduction ? 'source-map' : 'inline-source-map',
   entry: {
-    app: path.resolve(__dirname, "index.jsx")
+    app: path.resolve(__dirname, "src/index.jsx")
   },
   output: {
     path: path.resolve(__dirname, 'build/'),
     filename: projectName + '.min.js'
   },
   resolve: {
-    root: './src',
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   module: {
     loaders: [
@@ -65,8 +67,19 @@ module.exports = {
       {
         test: /.(scss|css)$/,
         use: ExtractTextPlugin.extract({
-          fallback: 'style',
-          use: ['css', 'postcss', 'sass']
+          fallback: 'style-loader',
+          use: [
+            'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: function () {
+                  return [autoprefixer]
+                }
+              }
+            },
+            'sass-loader'
+          ]
         })
       },
       {

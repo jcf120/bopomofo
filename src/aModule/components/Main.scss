@@ -1,0 +1,8 @@
+.maintext {
+  color: red;
+
+  &:hover {
+    color: darken(red, 0.5);
+    cursor: pointer;
+  }
+}
