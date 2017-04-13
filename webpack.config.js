@@ -4,7 +4,7 @@ var autoprefixer = require('autoprefixer')
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var env = process.env.NODE_ENV || 'development';
 var isProduction = 'production' === env
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var projectName = "PROJECT_NAME"
 
 var plugins = [
@@ -24,8 +24,7 @@ var plugins = [
       }
     }
   }),
-  new CopyWebpackPlugin([
-  ])
+  new ExtractTextPlugin('style.css', { allChunks: true }),
 ];
 
 
@@ -41,13 +40,17 @@ if (isProduction) {
 }
 
 module.exports = {
-  devtool: isProduction ? 'source-map' : '',
+  devtool: isProduction ? 'source-map' : 'inline-source-map',
   entry: {
-    app: path.resolve(__dirname, "src/index.js")
+    app: path.resolve(__dirname, "index.jsx")
   },
   output: {
     path: path.resolve(__dirname, 'build/'),
     filename: projectName + '.min.js'
+  },
+  resolve: {
+    root: './src',
+    extensions: ['', '.js', '.jsx']
   },
   module: {
     loaders: [
@@ -61,7 +64,10 @@ module.exports = {
       },
       {
         test: /.(scss|css)$/,
-        loaders: ['style', 'css', 'postcss', 'sass']
+        use: ExtractTextPlugin.extract({
+          fallback: 'style',
+          use: ['css', 'postcss', 'sass']
+        })
       },
       {
         test: /.(png|jpg|gif|svg|jpeg)$/,
