@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom'
 import {createStore, combineReducers} from 'redux'
 import {Provider} from 'react-redux'
 
-import aModule from './aModule'
+import helloWorld from './helloWorld'
 
 //----------------------------------------------
 
 const rootReducer = combineReducers({
-  [aModule.name]: aModule.reducer,
+  [helloWorld.name]: helloWorld.reducer,
 })
 
 let root 	= document.getElementById('root')
@@ -18,6 +18,6 @@ let store 	= createStore(rootReducer)
 
 ReactDOM.render(
 	<Provider store={store}>
-		<aModule.components.Main />
+		<helloWorld.components.Main />
 	</Provider>
 ,root)

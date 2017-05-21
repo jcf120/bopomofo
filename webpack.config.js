@@ -45,11 +45,11 @@ if (isProduction) {
 module.exports = {
   devtool: isProduction ? 'source-map' : 'inline-source-map',
   entry: {
-    app: path.resolve(__dirname, "src/index.jsx")
+    [projectName]: path.resolve(__dirname, "src/index.jsx")
   },
   output: {
     path: path.resolve(__dirname, 'build/'),
-    filename: projectName + '.min.js'
+    filename: '[name].js'
   },
   resolve: {
     extensions: ['.js', '.jsx']

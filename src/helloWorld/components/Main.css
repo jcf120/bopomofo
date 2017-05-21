@@ -1,0 +1,15 @@
+.helloWorld {
+  width: 500px;
+  margin: 200px auto;
+  text-align: center;
+
+  & button {
+  	font-size: 2em;
+  	padding: 20px 50px;
+  }
+
+  & h1 {
+  	font-size: 5em;
+  	color: blue;
+  }
+}
